@@ -1,0 +1,23 @@
+species: Critter 1
+memsize: 11
+defense: 1
+offense: 1
+size: 5
+energy: 1500
+posture: 10
+
+// mem[8] will hold the answer. mem[9] the previous. mem[10] for orientation
+ENERGY < SIZE*5 --> wait;
+
+// If food is better, increase answer, set previous, and change orientation
+nearby[0] < mem[8] and mem[10]=0 --> mem[8]:=mem[8]+1 mem[9]:=nearby[0] mem[10]:=1 left;
+mem[10]=0 --> mem[9]:=nearby[0] mem[10]:=1 left;
+// Done
+nearby[0] > 0 and mem[10]=0 --> mem[10]:=3;
+// Turn left after inspection
+mem[10]=0-->mem[10]:=1 left;
+mem[10]=1-->mem[10]:=2 forward;
+mem[10]=2-->mem[10]:=0 right;
+
+1=1 --> mem[10]:=0;
+
