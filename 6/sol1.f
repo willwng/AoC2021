@@ -1,0 +1,36 @@
+C     NAMING CONVENTIONS USED -
+C      A-G       REAL IN COMMON BLOCK
+C      H         CHARACTER IN COMMON BLOCK
+C      HZ        CHARACTER, INTERNAL
+C      I-J       INTEGER, INTERNAL
+C      KP        PARAMETER IN COMMON BLOCK
+C      K         PARAMETER, INTERNAL
+C      L         LOGICAL IN COMMON BLOCK
+C      LZ        LOGICAL, INTERNAL
+C      M         INTEGER, INTERNAL
+C      N         INTEGER IN COMMON BLOCK
+C      O-Y       REAL IN COMMON BLOCK
+C      Z         INTERNAL
+
+      PROGRAM SOLVE
+      PARAMETER (ISZ=1000, ILINES=500)
+      INTEGER IANS
+      CHARACTER HZS, HZS1
+      DIMENSION IWLD(ISZ, ISZ)
+      IANS=0
+
+C     PREALLOCATE THE ARRAY
+      DO I=1,ISZ
+      DO J=1,ISZ
+      IWLD(I,J)=0
+      END DO
+      END DO
+
+      OPEN(1, FILE='input.txt', STATUS='old')
+      DO I=1,ILINES
+      READ(1,*) 
+      END DO
+     
+      PRINT*,"ANSWER IS: ", IANS
+      END PROGRAM
+
