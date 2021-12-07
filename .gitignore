@@ -1,0 +1,6 @@
+# Executables
+*.out
+*.exe
+
+# Run configs
+*.vscode

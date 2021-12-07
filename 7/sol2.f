@@ -10,27 +10,33 @@ C      LZ        LOGICAL, INTERNAL
 C      M         INTEGER, INTERNAL
 C      N         INTEGER IN COMMON BLOCK
 C      O-Y       REAL IN COMMON BLOCK
-C      Z         INTERNAL
-
+C      Z         INTERNAL      
+      
       PROGRAM SOLVE
-      PARAMETER (ISZ=1000, ILINES=500)
-      INTEGER IANS
-      CHARACTER HZS, HZS1
-      DIMENSION IWLD(ISZ, ISZ)
-      IANS=0
+      PARAMETER (ISZ=1000, ILINES=1)
+      INTEGER IANS, INI
+      INTEGER, DIMENSION(ISZ) :: IAR
+      INTEGER ISCORE
+      IANS=HUGE(INTEGER)
 
-C     PREALLOCATE THE ARRAY
       DO I=1,ISZ
-      DO J=1,ISZ
-      IWLD(I,J)=0
-      END DO
+      IAR(I)=0
       END DO
 
       OPEN(1, FILE='input.txt', STATUS='old')
-      DO I=1,ILINES
-      READ(1,*) 
+      READ(1,*)  IAR
+
+      DO I=1,MAXVAL(IAR(1:ISZ))
+      ISCORE=0
+      DO J=1, ISZ
+      INI = (ABS(IAR(J)-I))
+      ISCORE = ISCORE+(INI*(INI+1))/2
       END DO
-     
+      IF(ISCORE .LT. IANS)THEN
+      IANS = ISCORE
+      END IF
+      END DO
+      
       PRINT*,"ANSWER IS: ", IANS
       END PROGRAM
 
