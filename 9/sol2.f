@@ -1,0 +1,125 @@
+C     NAMING CONVENTIONS USED -
+C      A-G       REAL IN COMMON BLOCK
+C      H         CHARACTER IN COMMON BLOCK
+C      HZ        CHARACTER, INTERNAL
+C      I-J       INTEGER, INTERNAL
+C      KP        PARAMETER IN COMMON BLOCK
+C      K         PARAMETER, INTERNAL
+C      L         LOGICAL IN COMMON BLOCK
+C      LZ        LOGICAL, INTERNAL
+C      M         INTEGER, INTERNAL
+C      N         INTEGER IN COMMON BLOCK
+C      O-Y       REAL IN COMMON BLOCK
+C      Z         INTERNAL      
+      
+      FUNCTION LLOW(I, J, IEL, IAR, ISZ)
+      INTEGER, DIMENSION(ISZ, ISZ) :: IAR
+      LOGICAL LU,LL,LR,LD
+      LU = .FALSE.
+      LL = .FALSE.
+      LR = .FALSE.
+      LD = .FALSE.
+
+      IF(I.LE.1 .OR. IEL.LT.IAR(I-1, J))THEN
+            LL = .TRUE.
+      END IF
+      IF(I.GE.ILINES .OR. IEL.LT.IAR(I+1, J))THEN
+            LR = .TRUE.      
+      END IF
+      IF(J.LE.1 .OR. IEL.LT.IAR(I, J-1))THEN
+            LU = .TRUE.      
+      END IF
+      IF(J.GE.ISZ .OR. IEL.LT.IAR(I, J+1))THEN
+            LD = .TRUE.      
+      END IF
+      LLOW = (LL.AND.LR.AND.LU.AND.LD)
+      END FUNCTION
+
+      RECURSIVE SUBROUTINE DFS(I,J,IAR,LSEEN,ICOMP,ICOMPS,ISZ)
+      INTEGER, DIMENSION(ISZ, ISZ) :: IAR
+      LOGICAL, DIMENSION(ISZ, ISZ) :: LSEEN
+      INTEGER, DIMENSION(ISZ*ISZ) :: ICOMP 
+
+      IF(LSEEN(I,J) .EQV. .TRUE.) RETURN
+      IF(IAR(I,J).EQ.9) RETURN
+
+      LSEEN(I,J) = .TRUE.
+      ICOMP(ICOMPS) = ICOMP(ICOMPS) + 1
+      IF(I.GT.1 .AND. IAR(I-1,J).EQ.IAR(I,J)+1)THEN
+      CALL DFS(I-1,J,IAR,LSEEN,ICOMP,ICOMPS,ISZ)
+      END IF
+      IF(I.LT.ISZ .AND. IAR(I+1,J).EQ.IAR(I,J)+1)THEN
+      CALL DFS(I+1,J,IAR,LSEEN,ICOMP,ICOMPS,ISZ)
+      END IF
+      IF(J.GT.1 .AND. IAR(I,J-1).EQ.IAR(I,J)+1)THEN
+      CALL DFS(I,J-1,IAR,LSEEN,ICOMP,ICOMPS,ISZ)
+      END IF
+      IF(J.LT.ISZ .AND. IAR(I,J+1).EQ.IAR(I,J)+1)THEN
+      CALL DFS(I,J+1,IAR,LSEEN,ICOMP,ICOMPS,ISZ)
+      END IF      
+      END SUBROUTINE
+
+
+      PROGRAM SOLVE
+      PARAMETER (ISZ=100, ILINES=100)
+      INTEGER IANS, ICOMPS
+      INTEGER, DIMENSION(ISZ, ISZ) :: IAR
+      LOGICAL, DIMENSION(ISZ, ISZ) :: LSEEN
+      INTEGER, DIMENSION(ISZ*ISZ) :: ICOMP
+      INTEGER IMAX1,IMAX2,IMAX3
+      CHARACTER(ISZ) HINPUT
+      LOGICAL LZM
+      IANS=0
+      ICOMPS=0
+
+      DO I=1,ISZ*ISZ
+      ICOMP(I) = 0
+      END DO
+
+      DO I=1,ISZ
+      DO J=1,ISZ
+      LSEEN(I,J) = .FALSE.
+      END DO
+      END DO
+
+C     INPUT READING IS TRICKY DUE TO NO DELIMITER
+      OPEN(1, FILE='input.txt', STATUS='old')
+      DO I=1, ILINES
+      READ(1,*)  HINPUT
+      DO J=1, ISZ
+      READ(HINPUT(J:J),*) IEL
+      IAR(I,J) = IEL
+      END DO
+      END DO
+
+      DO I=1,ILINES
+      DO J=1,ISZ
+      LZM = LLOW(I,J,IAR(I,J),IAR,ISZ)
+      IF(LZM .EQV. .TRUE.)THEN
+      ICOMPS = ICOMPS + 1
+      CALL DFS(I,J,IAR,LSEEN,ICOMP,ICOMPS,ISZ)
+      END IF
+      END DO
+      END DO
+      
+      IMAX1 = MAXVAL(ICOMP)
+      DO I=1,ISZ*ISZ
+      IF(ICOMP(I).EQ.IMAX1)THEN
+      ICOMP(I)=0
+      EXIT
+      END IF
+      END DO
+
+      IMAX2 = MAXVAL(ICOMP)
+      DO I=1,ISZ*ISZ
+      IF(ICOMP(I).EQ.IMAX2)THEN
+      ICOMP(I)=0
+      EXIT
+      END IF
+      END DO      
+      IMAX3 = MAXVAL(ICOMP)
+
+      IANS=IMAX1*IMAX2*IMAX3
+      PRINT*,"ANSWER IS: ", IANS
+      END PROGRAM
+
