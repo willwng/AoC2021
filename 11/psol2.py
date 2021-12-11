@@ -1,7 +1,3 @@
-import sys
-from functools import lru_cache
-
-
 def flash(flashed, octopodes, i, j):
     if (i, j) in flashed:
         return
@@ -18,10 +14,8 @@ def flash(flashed, octopodes, i, j):
     flash(flashed, octopodes, i+1, j)
     flash(flashed, octopodes, i+1, j-1)
     flash(flashed, octopodes, i+1, j+1)
-    #flash(flashed, octopodes, i,j)
     flash(flashed, octopodes, i, j-1)
     flash(flashed, octopodes, i, j+1)
-
     flash(flashed, octopodes, i-1, j)
     flash(flashed, octopodes, i-1, j-1)
     flash(flashed, octopodes, i-1, j+1)
@@ -29,7 +23,6 @@ def flash(flashed, octopodes, i, j):
 
 
 def solve():
-    ans = 0
     octopodes = []
     with open('input.txt') as f:
         for line in f:
@@ -45,16 +38,12 @@ def solve():
             for j in range(len(octopodes[i])):
                 flash(flashed, octopodes, i, j)
         if len(flashed) == len(octopodes) * len(octopodes[0]):
-            print(octopodes)
             return step
         for (i, j) in flashed:
-            ans += 1
             octopodes[i][j] = 0
         step += 1
-
-    return ans
 
 
 if __name__ == "__main__":
     ans = solve()
-    print(f"Answer 1: {ans} ")
+    print(f"Answer 2: {ans} ")

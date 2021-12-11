@@ -1,7 +1,3 @@
-import sys
-from functools import lru_cache
-
-
 def flash(flashed, octopodes, i, j):
     if (i, j) in flashed:
         return
