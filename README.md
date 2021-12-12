@@ -5,8 +5,8 @@ Not to be confused with the United States Representative
 
 Most of my solutions I will try to do in FORTRAN until I give up and choose Python
 
-## results 
-(when I don't forget to update)
+## Results
+To whom it may concern
 
 | Day | P1 solve time | P1 rank |  P2 solve time  | P2 rank |
 |:---:|:-------------:|:-------:|:---------------:|:-------:|
