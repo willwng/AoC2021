@@ -30,7 +30,6 @@ def dfs(s, adj, large, visited):
             return 0  # not a path
         elif visited[s] >= 1 and twice(visited, large):
             return 0  # not a path (repeat)
-
     add2(visited, s)
     dic_copy = visited.copy()
     p = 0
@@ -57,10 +56,9 @@ def solve():
     visited = {}
     paths = dfs("start", adj, large, visited)
     ans = paths
-
     return ans
 
 
 if __name__ == "__main__":
     ans = solve()
-    print(f"Answer 1: {ans} ")
+    print(f"Answer 2: {ans} ")
