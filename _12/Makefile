@@ -7,13 +7,13 @@ prun:
 prun1: 
 	python3 psol1.py input.txt
 prun2:
-	python3 psol1.py input.txt
+	python3 psol2.py input.txt
 
 ptest:
 	python3 psol.py test.txt
 ptest1: 
 	python3 psol1.py test.txt
 ptest2: 
-	python3 psol1.py test.txt
+	python3 psol2.py test.txt
 
 

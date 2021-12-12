@@ -1,6 +1,4 @@
 import sys
-from sys import setrecursionlimit
-setrecursionlimit(int(1e9))
 
 
 def add(dic, key, val):
@@ -10,10 +8,10 @@ def add(dic, key, val):
     return
 
 
-def dfs(s, adj, small, large, visited):
+def dfs(s, adj, large, visited):
     if s == "end":
         return 1
-    if s in small and s in visited:
+    if not large[s] and s in visited:
         return 0  # not a path
 
     visited[s] = True
@@ -21,36 +19,26 @@ def dfs(s, adj, small, large, visited):
     p = 0
     for a in adj[s]:
         visited = dic_copy.copy()
-        p += dfs(a, adj, small, large, visited)
+        p += dfs(a, adj, large, visited)
         visited = dic_copy
     return p
 
 
 def solve():
     ans = 0
-    small = {}
-    large = {}
-    adj = {}
+    large, adj = {}, {}
     file_name = str(sys.argv[1])
     with open(file_name) as f:
         for line in f:
             l = line.strip()
             caves = l.split("-")
-            c1 = caves[0]
-            c2 = caves[1]
-            if c1.isupper():
-                large[c1] = True
-            else:
-                small[c1] = True
-            if c2.isupper():
-                large[c2] = True
-            else:
-                small[c2] = True
-            add(adj, c1, c2)
-            add(adj, c2, c1)
+            large[caves[0]] = caves[0].isupper()
+            large[caves[1]] = caves[1].isupper()
+            add(adj, caves[0], caves[1])
+            add(adj, caves[1], caves[0])
 
     visited = {}
-    paths = dfs("start", adj, small, large, visited)
+    paths = dfs("start", adj, large, visited)
     ans = paths
 
     return ans
