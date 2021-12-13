@@ -59,11 +59,8 @@ def solve():
         else:
             fold_y(paper, axis)
 
-    for p in paper:
-        ans += paper[p]
-
     with open('out.txt', 'w') as f:
-        for i in range(100):
+        for i in range(40, -1, -1):
             row = []
             for j in range(10):
                 if(i, j) in paper and paper[(i, j)] == 1:
