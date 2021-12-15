@@ -119,6 +119,7 @@ def solve(file_name):
     new_world[0][0].path = []
     frontier.put(new_world[0][0])
     neighbors = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+    iter = 0
     while not frontier.empty():
         g = frontier.get()
         for (x, y) in neighbors:
@@ -134,7 +135,9 @@ def solve(file_name):
                 v.path = g.path.copy()
                 v.path.append(g)
                 frontier.put(v)
-            draw_world(c, world, new_world, v)
+            iter += 1
+            if iter % 100 == 0:
+                draw_world(c, world, new_world, v)
 
         # Color black
         g.color = 1
@@ -142,6 +145,10 @@ def solve(file_name):
         if g.i == ex and g.j == ey:
             ans = g.dist
             break
+
+    new_world[ex][ey].path.append(new_world[ex][ey])
+    draw_world(c, world, new_world, new_world[ex][ey])
+    tk.mainloop()
 
     return ans
 
