@@ -13,9 +13,6 @@ def tx(vx, x):
 # Returns the timestep (float) for the projectile with y-velocity vy to reach y
 @lru_cache(maxsize=None)
 def ty(vy, y):
-    if vy > 0:
-        return ((2*vy+1)+math.sqrt(4*vy**2 + 4*vy-8*y+1))/2
-    else:
         return ((2*vy+1)+math.sqrt(4*vy**2 + 4*vy-8*y+1))/2
 
 def solve(vx, vy, bounds):
