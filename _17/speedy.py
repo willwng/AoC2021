@@ -31,8 +31,7 @@ def solve(vx, vy, bounds):
 if __name__ == "__main__":
     ans = 0
     bounds = [81,129,-150,-108]
-
     for vx in range(bounds[1] + 1):
-        for vy in range(bounds[2], 200):
+        for vy in range(bounds[2], -bounds[2]):
             ans += solve(vx, vy, bounds)
     print(f"Answer: {ans} ")
