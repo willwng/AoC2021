@@ -32,9 +32,9 @@ def run(p1, p2, s1, s2):
             ans1 += occurences[move]
         else:
             # switch sides
-            win1, win2 = run(p2, p1, s2, s1)
-            ans1 += win2 * occurences[move]
-            ans2 += win1 * occurences[move]
+            win2, win1 = run(p2, p1, s2, s1)
+            ans1 += win1 * occurences[move]
+            ans2 += win2 * occurences[move]
     return ans1, ans2
 
 def solve(p1, p2):
