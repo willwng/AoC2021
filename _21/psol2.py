@@ -16,11 +16,6 @@ for (r1, r2, r3) in possible_rolls:
 
 @lru_cache(maxsize=None)
 def run(p1, p2, s1, s2):
-    if s1 >= 21:
-        return 1,0
-    if s2 >= 21:
-        return 0,1
-    
     s1_old, p1_old = s1, p1
     ans1, ans2 = 0, 0
     for move in occurences:
@@ -48,4 +43,4 @@ def solve(p1, p2):
 
 if __name__ == "__main__":
     ans = solve(6, 8)
-    print(f"Answer 1: {ans} ")
+    print(f"Answer 2: {ans} ")
